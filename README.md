@@ -29,6 +29,7 @@ For example...
     String filenamePattern = "dataset_%s.txt";
     
     DataSet<SomePOJO> records
+        .partitionByHash(r -> r.getLanguageCode())
         .output(new BucketingOutputFormat<>(
             new TextOutputFormatFactory<SomePOJO>(pathToOutputDir, filenamePattern, WriteMode.OVERWRITE),
             r -> r.getLanguageCode()))
@@ -37,6 +38,8 @@ For example...
 In the above code, `SomePOJO` has a `.getLanguageCode()` method that returns the two letter language code from the
 record. So the `hdfs://working-data/results/` directory will wind up containing files with names like `dataset_en.txt`, 
 `dataset_ja.txt`, etc.
+
+Note the use of `.partitionByHash(<same key as used for bucket names>)`, to limit the number of unique buckets per task.
 
 The `BucketingOutputFormat` runs in "file-only" mode by default, where each different bucket is a single file. You can
 disable this by calling `BucketingOutputFormat.setForceFiles(false)`, in which case each bucket's output format is opened with
