@@ -2,6 +2,10 @@
 
 Utilities for use with Flink (streaming and batch)
 
+## Building
+
+Run `mvn clean package` to create the `flink-utils-1.0-SNAPSHOT.jar` in the `target` sub-directory.
+
 ## BucketingOutputFormat
 
 A Flink batch API OutputFormat "wrapper" that supports writing records to files or directories based on data found in the record.
